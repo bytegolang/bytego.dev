@@ -1,7 +1,7 @@
 module.exports = {
-    title: "chenzy",
+    title: "BYTEGO",
     description:
-        "welcome to my home",
+        "welcome to my home by bytego",
 
     head: [
         ["meta", { name: "theme-color", content: "#2e8bee" }],
