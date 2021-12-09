@@ -1,7 +1,7 @@
 module.exports = {
-    title: "Flamego",
+    title: "chenzy",
     description:
-        "A fantastic modular Go web framework boiled with dependency injection",
+        "welcome to my home",
 
     head: [
         ["meta", { name: "theme-color", content: "#2e8bee" }],
