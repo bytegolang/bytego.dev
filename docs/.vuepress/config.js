@@ -47,6 +47,10 @@ module.exports = {
                 link: "/middleware/",
             },
             {
+                text:"Neovim Netrw",
+                link:"/neovim-netrw.html"
+            },
+            {
                 text: "FAQs",
                 link: "/faqs.html",
             },
