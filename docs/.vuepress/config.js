@@ -50,8 +50,14 @@ module.exports = {
             {
                 text:"Neovim",
                 children:[
-                    "/neovim-netrw.html",
-                    "/neovim-cmd.html",
+                    {
+                        text:"netrw",
+                        link:"/neovim-netrw.html"
+                    },
+                    {
+                        text:"cmd",
+                        link:"/neovim-cmd.html"
+                    }
                 ],
             },
             {
