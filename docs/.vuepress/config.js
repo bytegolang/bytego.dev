@@ -48,8 +48,11 @@ module.exports = {
                 link: "/middleware/",
             },
             {
-                text:"Neovim Netrw",
-                link:"/neovim-netrw.html"
+                text:"Neovim",
+                children:[
+                    "/neovim-netrw.html",
+                    "/neovim-cmd.html",
+                ],
             },
             {
                 text: "FAQs",
