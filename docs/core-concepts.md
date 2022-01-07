@@ -26,17 +26,17 @@ If you look up [the source code of the `flamego.Classic`](https://github.com/fla
 
 ```go:no-line-numbers
 func Classic() *Flame {
-	f := New()
-	f.Use(
-		Logger(),
-		Recovery(),
-		Static(
-			StaticOptions{
-				Directory: "public",
-			},
-		),
-	)
-	return f
+    f := New()
+    f.Use(
+        Logger(),
+        Recovery(),
+        Static(
+            StaticOptions{
+                Directory: "public",
+            },
+        ),
+    )
+    return f
 }
 ```
 
@@ -51,10 +51,10 @@ Each Flame instace is independent of other Flame instances in the sense that ins
 
 ```go:no-line-numbers
 func main() {
-	f1 := flamego.Classic()
+    f1 := flamego.Classic()
 
-	f2 := flamego.New()
-	f2.Use(flamego.Recovery())
+    f2 := flamego.New()
+    f2.Use(flamego.Recovery())
 
     ...
 }
@@ -83,38 +83,41 @@ As being noted in the docstring, any callable function is a valid `flamego.Handl
 
 :::: code-group
 ::: code-group-item Code
+
 ```go:no-line-numbers
 package main
 
 import (
-	"github.com/flamego/flamego"
+    "github.com/flamego/flamego"
 )
 
 func main() {
-	f := flamego.New()
-	f.Get("/anonymous", func() string {
-		return "Respond from an anonymous function"
-	})
-	f.Get("/declared", declared)
+    f := flamego.New()
+    f.Get("/anonymous", func() string {
+        return "Respond from an anonymous function"
+    })
+    f.Get("/declared", declared)
 
-	t := &customType{}
-	f.Get("/method", t.handler)
+    t := &customType{}
+    f.Get("/method", t.handler)
 
-	f.Run()
+    f.Run()
 }
 
 func declared() string {
-	return "Respond from a declared function"
+    return "Respond from a declared function"
 }
 
 type customType struct{}
 
 func (t *customType) handler() string {
-	return "Respond from a method of a type"
+    return "Respond from a method of a type"
 }
 ```
+
 :::
 ::: code-group-item Test
+
 ```:no-line-numbers
 $ curl http://localhost:2830/anonymous
 Respond from an anonymous function
@@ -125,6 +128,7 @@ Respond from a declared function
 $ curl http://localhost:2830/method
 Respond from a method of a type
 ```
+
 :::
 ::::
 
@@ -142,31 +146,34 @@ Let's see some examples that you can use for your handlers:
 
 :::: code-group
 ::: code-group-item Code
+
 ```go
 package main
 
 import (
-	"errors"
+    "errors"
 
-	"github.com/flamego/flamego"
+    "github.com/flamego/flamego"
 )
 
 func main() {
-	f := flamego.New()
-	f.Get("/string", func() string {
-		return "Return a string"
-	})
-	f.Get("/bytes", func() []byte {
-		return []byte("Return some bytes")
-	})
-	f.Get("/error", func() error {
-		return errors.New("Return an error")
-	})
-	f.Run()
+    f := flamego.New()
+    f.Get("/string", func() string {
+        return "Return a string"
+    })
+    f.Get("/bytes", func() []byte {
+        return []byte("Return some bytes")
+    })
+    f.Get("/error", func() error {
+        return errors.New("Return an error")
+    })
+    f.Run()
 }
 ```
+
 :::
 ::: code-group-item Test
+
 ```:no-line-numbers
 $ curl -i http://localhost:2830/string
 HTTP/1.1 200 OK
@@ -187,6 +194,7 @@ HTTP/1.1 500 Internal Server Error
 Return an error
 ...
 ```
+
 :::
 ::::
 
@@ -202,32 +210,35 @@ In the cases that you want to have complete control over the status code of your
 
 :::: code-group
 ::: code-group-item Code
+
 ```go:no-line-numbers
 package main
 
 import (
-	"errors"
-	"net/http"
+    "errors"
+    "net/http"
 
-	"github.com/flamego/flamego"
+    "github.com/flamego/flamego"
 )
 
 func main() {
-	f := flamego.New()
-	f.Get("/string", func() (int, string) {
-		return http.StatusOK, "Return a string"
-	})
-	f.Get("/bytes", func() (int, []byte) {
-		return http.StatusOK, []byte("Return some bytes")
-	})
-	f.Get("/error", func() (int, error) {
-		return http.StatusForbidden, errors.New("Return an error")
-	})
-	f.Run()
+    f := flamego.New()
+    f.Get("/string", func() (int, string) {
+        return http.StatusOK, "Return a string"
+    })
+    f.Get("/bytes", func() (int, []byte) {
+        return http.StatusOK, []byte("Return some bytes")
+    })
+    f.Get("/error", func() (int, error) {
+        return http.StatusForbidden, errors.New("Return an error")
+    })
+    f.Run()
 }
 ```
+
 :::
 ::: code-group-item Test
+
 ```:no-line-numbers
 $ curl -i http://localhost:2830/string
 HTTP/1.1 200 OK
@@ -248,6 +259,7 @@ HTTP/1.1 403 Forbidden
 Return an error
 ...
 ```
+
 :::
 ::::
 
@@ -273,27 +285,31 @@ What happens if you try to use a service that hasn't been injected?
 
 :::: code-group
 ::: code-group-item Code
+
 ```go:no-line-numbers
 package main
 
 import (
-	"github.com/flamego/flamego"
+    "github.com/flamego/flamego"
 )
 
 type myService struct{}
 
 func main() {
-	f := flamego.New()
-	f.Get("/", func(s myService) {})
-	f.Run()
+    f := flamego.New()
+    f.Get("/", func(s myService) {})
+    f.Run()
 }
 ```
+
 :::
 ::: code-group-item Test
+
 ```:no-line-numbers
 http: panic serving 127.0.0.1:50061: unable to invoke the 0th handler [func(main.myService)]: value not found for type main.myService
 ...
 ```
+
 :::
 ::::
 
@@ -319,10 +335,10 @@ f.Use(middleware1, middleware2, middleware3)
 
 // Group middleware that are scoped down to a group of routes.
 f.Group("/",
-	func() {
-		f.Get("/hello", func() { ... })
-	},
-	middleware4, middleware5, middleware6,
+    func() {
+        f.Get("/hello", func() { ... })
+    },
+    middleware4, middleware5, middleware6,
 )
 
 // Route-level middleware that are scoped down to a single route.
